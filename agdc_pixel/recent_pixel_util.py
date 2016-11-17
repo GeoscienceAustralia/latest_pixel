@@ -3,15 +3,16 @@ from copy import copy
 from datetime import datetime
 
 MY_REF_DATE = datetime.strptime('19700101', '%Y%m%d').date()
-my_var = 'days_since_1970'
+MY_VAR = 'days_since_1970'
+
 # gets sorted xarray dataset of multiple bands and returns recent pixel bands with extra band of observed date
 # for each pixel
 
-def get_recent_pixel(data_info=None, ref_date=MY_REF_DATE, my_var=my_var): # expects dictionary of cell and dataset as key value
+def get_recent_pixel(data_info=None, ref_date=None, my_var=None): # expects dictionary of cell and dataset as key value
     data_dict = {}
+    ref_date = ref_date or MY_REF_DATE
+    my_var = my_var or MY_VAR
     for k, data in data_info.iteritems():
-        # day_arr = np.zeros([data.data_vars.values()[0].shape[1], 
-        #                   data.data_vars.values()[0].shape[2]], dtype=np.int16)
         bands = len(data.data_vars.keys())
         stored_band = np.zeros((bands+1,4000, 4000), dtype=np.int16)
         dt_list = list()
